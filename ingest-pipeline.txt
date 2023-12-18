@@ -1,0 +1,34 @@
+PUT _ingest/pipeline/kibana-objectid
+{
+  "description": "Extract ID and create new field",
+  "processors": [
+    {
+      "script": {
+        "source": """
+          // Find the last occurrence of ':'
+          def lastIndex = ctx['_id'].lastIndexOf(':');
+
+          // Extract the ID portion after the last colon
+          def extractedId = lastIndex == -1 ? ctx['_id'] : ctx['_id'].substring(lastIndex + 1);
+
+          // Create a new field with the extracted ID
+          ctx['kibana.saved_object.id'] = extractedId;
+        """,
+        "lang": "painless"
+      }
+    },
+    {
+        "remove": {
+          "field": [
+            "canvas-workpad-template.template",
+            "canvas-workpad.pages",
+            "canvas-workpad.css",
+            "dashboard.optionsJSON",
+                        "dashboard.panelsJSON"
+
+          ],
+          "ignore_missing": true
+        }
+      }
+  ]
+}
