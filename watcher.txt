@@ -1,0 +1,37 @@
+{
+  "trigger": {
+    "schedule": {
+      "interval": "1m"
+    }
+  },
+  "input": {
+    "search": {
+      "request": {
+        "search_type": "query_then_fetch",
+        "indices": [
+          ".kibana_analytics_8.11.0"
+        ],
+        "rest_total_hits_as_int": true,
+        "body": {
+          "query": {
+            "range": {
+              "@timestamp": {
+                "gte": "now-1m"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "condition": {
+    "always": {}
+  },
+  "actions": {
+    "reindex": {
+      "index": {
+        "index": "kibana_objects-new"
+      }
+    }
+  }
+}

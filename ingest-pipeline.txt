@@ -4,31 +4,22 @@ PUT _ingest/pipeline/kibana-objectid
   "processors": [
     {
       "script": {
-        "source": """
-          // Find the last occurrence of ':'
-          def lastIndex = ctx['_id'].lastIndexOf(':');
-
-          // Extract the ID portion after the last colon
-          def extractedId = lastIndex == -1 ? ctx['_id'] : ctx['_id'].substring(lastIndex + 1);
-
-          // Create a new field with the extracted ID
-          ctx['kibana.saved_object.id'] = extractedId;
-        """,
-        "lang": "painless"
+        "lang": "painless",
+        "source": "\n          // Find the last occurrence of ':'\n          def lastIndex = ctx['_id'].lastIndexOf(':');\n\n          // Extract the ID portion after the last colon\n          def extractedId = lastIndex == -1 ? ctx['_id'] : ctx['_id'].substring(lastIndex + 1);\n\n          // Create a new field with the extracted ID\n          ctx['kibana.saved_object.id'] = extractedId;\n        ",
+        "ignore_failure": true
       }
     },
     {
-        "remove": {
-          "field": [
-            "canvas-workpad-template.template",
-            "canvas-workpad.pages",
-            "canvas-workpad.css",
-            "dashboard.optionsJSON",
-                        "dashboard.panelsJSON"
-
+      "remove": {
+        "field": [
+          "canvas-workpad-template.template",
+          "canvas-workpad.pages",
+          "canvas-workpad.css",
+          "dashboard.optionsJSON",
+          "dashboard.panelsJSON"
           ],
           "ignore_missing": true
-        }
       }
-  ]
+    }
+    ]
 }
