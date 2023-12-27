@@ -1,0 +1,87 @@
+PUT _ingest/pipeline/enrich-ids
+{
+  "processors": [
+    {
+      "enrich": {
+        "field": "kibana.saved_object.id",
+        "policy_name": "objectid-policy-new",
+        "target_field": "meta",
+        "ignore_missing": true,
+        "ignore_failure": true,
+        "description": "Add enrichment"
+      }
+    },
+    {
+      "set": {
+        "field": "title",
+        "value": "{{meta.dashboard.title}}",
+        "override": false,
+        "ignore_failure": true
+      }
+    },
+    {
+      "set": {
+        "field": "title",
+        "value": "{{meta.index-pattern.title}}",
+        "override": false,
+        "ignore_failure": true
+      }
+    },
+    {
+      "set": {
+        "field": "title",
+        "value": "{{meta.lens.title}}",
+        "override": false,
+        "ignore_failure": true
+      }
+    },
+    {
+      "set": {
+        "field": "title",
+        "value": "{{meta.links.title}}",
+        "override": false,
+        "ignore_failure": true
+      }
+    },
+    {
+      "set": {
+        "field": "title",
+        "value": "{{meta.map.title}}",
+        "override": false,
+        "ignore_failure": true
+      }
+    },
+    {
+      "set": {
+        "field": "title",
+        "value": "{{meta.query.title}}",
+        "override": false,
+        "ignore_failure": true
+      }
+    },
+    {
+      "set": {
+        "field": "title",
+        "value": "{{meta.canvas.title}}",
+        "override": false,
+        "ignore_failure": true
+      }
+    },
+    {
+      "set": {
+        "field": "title",
+        "value": "{{meta.search.title}}",
+        "override": false,
+        "ignore_failure": true
+      }
+    },
+    {
+      "set": {
+        "field": "title",
+        "value": "{{meta.visualization.title}}",
+        "override": false,
+        "ignore_failure": true
+      }
+    }
+  ]
+}

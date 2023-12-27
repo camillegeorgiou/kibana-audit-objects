@@ -1,0 +1,56 @@
+PUT _transform/kibana-transform-01
+{
+  "source": {
+    "index": [
+      "filebeat-*"
+    ],
+    "query": {
+      "bool": {
+        "filter": [
+          {
+            "bool": {
+              "filter": [
+                {
+                  "bool": {
+                    "must": [],
+                    "filter": [
+                      {
+                        "bool": {
+                          "should": [
+                            {
+                              "exists": {
+                                "field": "kibana.saved_object.id"
+                              }
+                            }
+                          ],
+                          "minimum_should_match": 1
+                        }
+                      }
+                    ],
+                    "should": [],
+                    "must_not": []
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "latest": {
+    "unique_key": [
+      "@timestamp"
+    ],
+    "sort": "@timestamp"
+  },
+  "dest": {
+    "index": "kibana-transform-01",
+    "pipeline": "enrich-ids"
+  },
+  "sync": {
+    "time": {
+      "field": "@timestamp"
+    }
+  }
+}
