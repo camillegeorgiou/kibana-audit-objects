@@ -80,7 +80,9 @@ The "kibana.saved_object.id" field should now exist in your audit logs and new o
 
 7. Create an enrich processor using enrich.txt and execute:
 
+```
 PUT _enrich/policy/objectid-policy/_execute
+```
 
 8. Create an ingest pipeline using ingest-pipeline.txt. This utilises the new enrichment policy and set processors to set the title of the object.
 
