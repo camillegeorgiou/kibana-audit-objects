@@ -1,7 +1,8 @@
+PUT _watcher/watch/policy-execute
 {
   "trigger": {
     "schedule": {
-      "interval": "1m"
+      "interval": "1s"
     }
   },
   "input": {
@@ -9,13 +10,13 @@
       "request": {
         "search_type": "query_then_fetch",
         "indices": [
-          ".kibana_analytics_8.11.0"
+          "kibana_objects-01"
         ],
         "rest_total_hits_as_int": true,
         "body": {
           "query": {
             "range": {
-              "@timestamp": {
+              "@updated_at": {
                 "gte": "now-1m"
               }
             }
@@ -29,9 +30,22 @@
   },
   "actions": {
     "reindex": {
-      "index": {
-        "index": "kibana_objects-new"
+      "webhook": {
+        "scheme": "https",
+        "host": "{{monitoring cluster host}}",
+        "port": 9243,
+        "method": "post",
+        "path": "_enrich/policy/objectid-policy-new/_execute",
+        "params": {},
+        "headers": {
+          "Authorization": "::es_redacted::"
+        }
       }
+    }
+  },
+  "metadata": {
+    "xpack": {
+      "type": "json"
     }
   }
 }
