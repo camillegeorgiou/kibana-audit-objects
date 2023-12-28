@@ -50,6 +50,7 @@ POST _reindex
 - You'll need to create an Api Key for authorization of the request.
 
 
+
 **Set-up - Monitoring Cluster**
 - files contained in mon-cluster-side folder
 
