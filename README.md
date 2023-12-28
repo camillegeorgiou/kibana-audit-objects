@@ -19,6 +19,7 @@ This ingest pipeline extracts the saved objet id from the "_id" field of documen
 
 3. Create an index template that uses the component template:
 
+```
 PUT _index_template/kibana_objects-new
 {
   "index_patterns": [
@@ -28,10 +29,11 @@ PUT _index_template/kibana_objects-new
     "kibana-objects"
   ]
 }
+```
 
 4. Reindex the existing kiban_analytics data into the new kibana index with the formlised mappings and ingest pipeline:
 
-
+```
 POST _reindex
 {
   "source" : {
@@ -42,6 +44,7 @@ POST _reindex
     "pipeline" : "kibana-objectid"
   }
 }
+```
 
 5. Add an advanced watch using the watcher.txt file. This watcher checks for new documents in the kibana_analytics index and reindexes into the new kibana index if the condition is met.
 - You'll need to create an Api Key for authorization of the request.
@@ -52,6 +55,7 @@ POST _reindex
 
 6. In the monitoring cluster, set up cross-cluster replication and create a follower index for the kibana objects index in the main cluster:
 
+```
 PUT /kibana_objects-01/_ccr/follow
 {
   "remote_cluster": "mon-cluster",
@@ -67,6 +71,7 @@ PUT /kibana_objects-01/_ccr/follow
   "max_retry_delay": "500ms",
   "read_poll_timeout": "1m"
 }
+```
 
 7. Create a data view and verify the data in the monitoring cluster reflects that of the kibana-objects index in the main cluster.
 
@@ -82,6 +87,7 @@ PUT _enrich/policy/objectid-policy/_execute
 
 10. Create an index template using the new component template:
 
+```
 PUT _index_template/trasform-objects
 {
   "index_patterns": [
@@ -91,6 +97,7 @@ PUT _index_template/trasform-objects
     "transform-obj"
   ]
 }
+```
 
 11. Create a transform from transform.txt and activate. the transform filters data from the kibana logs based on the presence of the saved_object.id field.
 
