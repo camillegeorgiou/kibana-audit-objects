@@ -32,7 +32,7 @@ PUT _watcher/watch/kibana-reindex
     "reindex": {
       "webhook": {
         "scheme": "https",
-        "host": "{{host}}",
+        "host": "{{cluster host}}",
         "port": 9243,
         "method": "post",
         "path": "/_reindex",
