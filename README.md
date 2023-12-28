@@ -77,9 +77,9 @@ PUT _enrich/policy/objectid-policy/_execute
 
 8. Create an ingest pipeline using ingest-pipeline.txt. This utilises the new enrichment policy and set processors to set the title of the object.
 
-8. Crete a component template to formalise mappings of the new enriched index that will be used for visusalisations using, component-template.txt
+9. Crete a component template to formalise mappings of the new enriched index that will be used for visusalisations using, component-template.txt
 
-9. Create an index template using the new component template:
+10. Create an index template using the new component template:
 
 PUT _index_template/trasform-objects
 {
@@ -91,11 +91,11 @@ PUT _index_template/trasform-objects
   ]
 }
 
-10. Create a transform from transform.txt and activate. the transform filters data from the kibana logs based on the presence of the saved_object.id field.
+11. Create a transform from transform.txt and activate. the transform filters data from the kibana logs based on the presence of the saved_object.id field.
 
-11. Create a watch that re-executes the enrich policy when new objects are added, using watcher.txt.
+12. Create a watch that re-executes the enrich policy when new objects are added, using watcher.txt.
 
-12. Import the export.ndjson file containing the configuration of the dashboard.
+13. Import the export.ndjson file containing the configuration of the dashboard.
 
 
 
