@@ -82,6 +82,17 @@ PUT _ingest/pipeline/enrich-ids
         "override": false,
         "ignore_failure": true
       }
+    },
+    {
+   "script": {
+        "source": """
+          if (ctx.event.type == 'deletion') {
+            ctx['Active'] = false;
+          } else {
+            ctx['Active'] = true;
+          }
+        """
+      }
     }
   ]
 }
