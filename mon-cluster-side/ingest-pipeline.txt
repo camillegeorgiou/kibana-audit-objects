@@ -86,7 +86,7 @@ PUT _ingest/pipeline/enrich-ids
     {
    "script": {
         "source": """
-          if (ctx.event.type == 'deletion') {
+          if (ctx.event.action == 'saved_object_delete') {
             ctx['Active'] = false;
           } else {
             ctx['Active'] = true;
