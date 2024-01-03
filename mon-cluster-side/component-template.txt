@@ -3,12 +3,13 @@ PUT _component_template/transform-obj
   "template": {
     "settings": {
       "index": {
-        "final_pipeline": "enrich-ids"
+        "default_pipeline": "enrich-ids"
       }
     },
     "mappings": {
       "properties": {
         "agent": {
+          "type": "object",
           "properties": {
             "name": {
               "type": "text",
@@ -58,6 +59,7 @@ PUT _component_template/transform-obj
           }
         },
         "process": {
+          "type": "object",
           "properties": {
             "pid": {
               "type": "long"
@@ -65,8 +67,10 @@ PUT _component_template/transform-obj
           }
         },
         "log": {
+          "type": "object",
           "properties": {
             "file": {
+              "type": "object",
               "properties": {
                 "path": {
                   "type": "text",
@@ -103,6 +107,7 @@ PUT _component_template/transform-obj
           }
         },
         "fileset": {
+          "type": "object",
           "properties": {
             "name": {
               "type": "text",
@@ -134,6 +139,7 @@ PUT _component_template/transform-obj
           }
         },
         "labels": {
+          "type": "object",
           "properties": {
             "application": {
               "type": "text",
@@ -147,6 +153,7 @@ PUT _component_template/transform-obj
           }
         },
         "cloud": {
+          "type": "object",
           "properties": {
             "availability_zone": {
               "type": "text",
@@ -160,6 +167,7 @@ PUT _component_template/transform-obj
           }
         },
         "input": {
+          "type": "object",
           "properties": {
             "type": {
               "type": "text",
@@ -173,6 +181,7 @@ PUT _component_template/transform-obj
           }
         },
         "trace": {
+          "type": "object",
           "properties": {
             "id": {
               "type": "text",
@@ -189,6 +198,7 @@ PUT _component_template/transform-obj
           "type": "date"
         },
         "ecs": {
+          "type": "object",
           "properties": {
             "version": {
               "type": "text",
@@ -202,6 +212,7 @@ PUT _component_template/transform-obj
           }
         },
         "related": {
+          "type": "object",
           "properties": {
             "user": {
               "type": "text",
@@ -215,8 +226,10 @@ PUT _component_template/transform-obj
           }
         },
         "meta": {
+          "type": "object",
           "properties": {
             "index-pattern": {
+              "type": "object",
               "properties": {
                 "fieldFormatMap": {
                   "type": "text",
@@ -301,23 +314,6 @@ PUT _component_template/transform-obj
                 }
               }
             },
-            "kibana": {
-              "properties": {
-                "saved_object": {
-                  "properties": {
-                    "id": {
-                      "type": "text",
-                      "fields": {
-                        "keyword": {
-                          "ignore_above": 256,
-                          "type": "keyword"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
             "type": {
               "type": "text",
               "fields": {
@@ -339,8 +335,10 @@ PUT _component_template/transform-obj
           }
         },
         "service": {
+          "type": "object",
           "properties": {
             "node": {
+              "type": "object",
               "properties": {
                 "name": {
                   "type": "text",
@@ -392,6 +390,7 @@ PUT _component_template/transform-obj
           }
         },
         "host": {
+          "type": "object",
           "properties": {
             "name": {
               "type": "text",
@@ -405,6 +404,7 @@ PUT _component_template/transform-obj
           }
         },
         "client": {
+          "type": "object",
           "properties": {
             "ip": {
               "type": "text",
@@ -418,10 +418,13 @@ PUT _component_template/transform-obj
           }
         },
         "http": {
+          "type": "object",
           "properties": {
             "request": {
+              "type": "object",
               "properties": {
                 "headers": {
+                  "type": "object",
                   "properties": {
                     "x-forwarded-for": {
                       "type": "text",
@@ -439,6 +442,7 @@ PUT _component_template/transform-obj
           }
         },
         "event": {
+          "type": "object",
           "properties": {
             "ingested": {
               "type": "date"
@@ -521,17 +525,13 @@ PUT _component_template/transform-obj
           }
         },
         "kibana": {
+          "type": "object",
           "properties": {
             "saved_object": {
+              "type": "object",
               "properties": {
                 "id": {
-                  "type": "text",
-                  "fields": {
-                    "keyword": {
-                      "ignore_above": 256,
-                      "type": "keyword"
-                    }
-                  }
+                  "type": "keyword"
                 },
                 "type": {
                   "type": "text",
@@ -565,6 +565,7 @@ PUT _component_template/transform-obj
           }
         },
         "user": {
+          "type": "object",
           "properties": {
             "roles": {
               "type": "text",
@@ -596,6 +597,7 @@ PUT _component_template/transform-obj
           }
         },
         "transaction": {
+          "type": "object",
           "properties": {
             "id": {
               "type": "text",
@@ -609,6 +611,7 @@ PUT _component_template/transform-obj
           }
         },
         "span": {
+          "type": "object",
           "properties": {
             "id": {
               "type": "text",

@@ -91,10 +91,18 @@ PUT _enrich/policy/objectid-policy/_execute
 10. Create an index template using the new component template:
 
 ```
-PUT _index_template/trasform-objects
+PUT _index_template/kibana-transform
 {
+  "template": {
+    "settings": {
+      "index": {
+        "default_pipeline": "enrich-ids",
+        "final_pipeline": "enrich-ids"
+      }
+    }
+  },
   "index_patterns": [
-    "trasform-objects-*"
+    "kibana-transform-*"
   ],
   "composed_of": [
     "transform-obj"

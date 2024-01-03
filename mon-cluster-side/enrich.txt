@@ -2,7 +2,7 @@ PUT /_enrich/policy/objectid-policy
 {
   "match": {
           "indices": [
-            "kibana_objects"
+            "kibana_objects*"
           ],
           "match_field": "kibana.saved_object.id",
           "enrich_fields": [
