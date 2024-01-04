@@ -1,92 +1,34 @@
 PUT _ingest/pipeline/enrich-ids
 {
-  "processors":[
-  {
-    "enrich": {
-      "field": "kibana.saved_object.id",
-      "policy_name": "objectid-policy",
-      "target_field": "meta",
-      "ignore_missing": true,
-      "ignore_failure": true,
-      "description": "Add enrichment"
+  "processors": [
+    {
+      "enrich": {
+        "field": "kibana.saved_object.id",
+        "policy_name": "objectid-policy-1",
+        "target_field": "meta",
+        "override": false,
+        "ignore_missing": true,
+        "ignore_failure": true,
+        "description": "Add enrichment"
+      }
+    },
+    {
+      "script": {
+        "source": "\n          if (ctx.event.action == 'saved_object_delete') {\n            ctx['Active'] = false;\n          } else {\n            ctx['Active'] = true;\n          }\n        "
+      }
+    },
+    {
+      "geoip": {
+        "field": "http.request.headers.x-forwarded-for",
+        "target_field": "geo_info",
+        "ignore_missing": true,
+        "ignore_failure": true
+      }
+    },
+    {
+      "script": {
+        "source": "ZonedDateTime date = ZonedDateTime.parse(ctx['@timestamp']);\nctx.hour_of_day = date.getHour();\nctx.day_of_week_num = date.getDayOfWeek().getValue();\nctx.day_of_week = date.getDayOfWeek().toString();\nctx.day_of_month = date.getDayOfMonth();\nctx.month_num = date.getMonthValue();\nctx.month = date.getMonth().toString();\nctx.year = date.getYear().toString();\n"
+      }
     }
-  },
-  {
-    "set": {
-      "field": "title",
-      "value": "{{meta.dashboard.title}}",
-      "override": false,
-      "ignore_failure": true
-    }
-  },
-  {
-    "set": {
-      "field": "title",
-      "value": "{{meta.index-pattern.title}}",
-      "override": false,
-      "ignore_failure": true
-    }
-  },
-  {
-    "set": {
-      "field": "title",
-      "value": "{{meta.lens.title}}",
-      "override": false,
-      "ignore_failure": true
-    }
-  },
-  {
-    "set": {
-      "field": "title",
-      "value": "{{meta.links.title}}",
-      "override": false,
-      "ignore_failure": true
-    }
-  },
-  {
-    "set": {
-      "field": "title",
-      "value": "{{meta.map.title}}",
-      "override": false,
-      "ignore_failure": true
-    }
-  },
-  {
-    "set": {
-      "field": "title",
-      "value": "{{meta.query.title}}",
-      "override": false,
-      "ignore_failure": true
-    }
-  },
-  {
-    "set": {
-      "field": "title",
-      "value": "{{meta.canvas.title}}",
-      "override": false,
-      "ignore_failure": true
-    }
-  },
-  {
-    "set": {
-      "field": "title",
-      "value": "{{meta.search.title}}",
-      "override": false,
-      "ignore_failure": true
-    }
-  },
-  {
-    "set": {
-      "field": "title",
-      "value": "{{meta.visualization.title}}",
-      "override": false,
-      "ignore_failure": true
-    }
-  },
-  {
-    "script": {
-      "source": "\n          if (ctx.event.action == 'saved_object_delete') {\n            ctx['Active'] = false;\n          } else {\n            ctx['Active'] = true;\n          }\n        "
-    }
-  }
-]
+  ]
 }

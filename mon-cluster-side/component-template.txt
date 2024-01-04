@@ -8,10 +8,138 @@ PUT _component_template/transform-obj
     },
     "mappings": {
       "properties": {
+        "meta": {
+          "properties": {
+            "dashboard": {
+              "properties": {
+                "title": {
+                  "type": "text",
+                  "copy_to": "object_title"
+                }
+              }
+            },
+            "index-pattern": {
+              "properties": {
+                "title": {
+                  "type": "text",
+                  "copy_to": "object_title"
+                }
+              }
+            },
+            "lens": {
+              "properties": {
+                "title": {
+                  "type": "text",
+                  "copy_to": "object_title"
+                }
+              }
+            },
+            "links": {
+              "properties": {
+                "title": {
+                  "type": "text",
+                  "copy_to": "object_title"
+                }
+              }
+            },
+            "map": {
+              "properties": {
+                "title": {
+                  "type": "text",
+                  "copy_to": "object_title"
+                }
+              }
+            },
+            "query": {
+              "properties": {
+                "title": {
+                  "type": "text",
+                  "copy_to": "object_title"
+                }
+              }
+            },
+            "canvas": {
+              "properties": {
+                "title": {
+                  "type": "text",
+                  "copy_to": "object_title"
+                }
+              }
+            },
+            "search": {
+              "properties": {
+                "title": {
+                  "type": "text",
+                  "copy_to": "object_title"
+                }
+              }
+            },
+            "visualization": {
+              "properties": {
+                "title": {
+                  "type": "text",
+                  "copy_to": "object_title"
+                }
+              }
+            }
+          }
+        },
+        "object_title": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword"
+            }
+          }
+        },
+        "@timestamp": {
+          "type": "date"
+        },
+        "geoip": {
+          "properties": {
+            "location": {
+              "type": "geo_point"
+            },
+            "region_iso_code": {
+              "type": "keyword"
+            },
+            "continent_name": {
+              "type": "keyword"
+            },
+            "city_name": {
+              "type": "keyword"
+            },
+            "country_iso_code": {
+              "type": "keyword"
+            },
+            "country_name": {
+              "type": "keyword"
+            },
+            "region_name": {
+              "type": "keyword"
+            }
+          }
+        },
+        "day_of_month": {
+          "type": "long"
+        },
+        "day_of_week_num": {
+          "type": "long"
+        },
+        "day_of_week": {
+          "type": "keyword"
+        },
+        "year": {
+          "type": "date",
+          "format": "year"
+        },
+        "month_num": {
+          "type": "long"
+        },
         "agent": {
           "type": "object",
           "properties": {
-            "name": {
+            "ephemeral_id": {
               "type": "text",
               "fields": {
                 "keyword": {
@@ -29,7 +157,7 @@ PUT _component_template/transform-obj
                 }
               }
             },
-            "ephemeral_id": {
+            "name": {
               "type": "text",
               "fields": {
                 "keyword": {
@@ -58,90 +186,10 @@ PUT _component_template/transform-obj
             }
           }
         },
-        "process": {
+        "client": {
           "type": "object",
           "properties": {
-            "pid": {
-              "type": "long"
-            }
-          }
-        },
-        "log": {
-          "type": "object",
-          "properties": {
-            "file": {
-              "type": "object",
-              "properties": {
-                "path": {
-                  "type": "text",
-                  "fields": {
-                    "keyword": {
-                      "ignore_above": 256,
-                      "type": "keyword"
-                    }
-                  }
-                }
-              }
-            },
-            "offset": {
-              "type": "long"
-            },
-            "level": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            },
-            "logger": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            }
-          }
-        },
-        "fileset": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            }
-          }
-        },
-        "message": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "ignore_above": 256,
-              "type": "keyword"
-            }
-          }
-        },
-        "title": {
-          "type": "text",
-          "fields": {
-            "keyword": {
-              "ignore_above": 256,
-              "type": "keyword"
-            }
-          }
-        },
-        "labels": {
-          "type": "object",
-          "properties": {
-            "application": {
+            "ip": {
               "type": "text",
               "fields": {
                 "keyword": {
@@ -166,37 +214,6 @@ PUT _component_template/transform-obj
             }
           }
         },
-        "input": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            }
-          }
-        },
-        "trace": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            }
-          }
-        },
-        "@timestamp": {
-          "type": "date"
-        },
         "ecs": {
           "type": "object",
           "properties": {
@@ -211,10 +228,10 @@ PUT _component_template/transform-obj
             }
           }
         },
-        "related": {
+        "event": {
           "type": "object",
           "properties": {
-            "user": {
+            "action": {
               "type": "text",
               "fields": {
                 "keyword": {
@@ -222,95 +239,64 @@ PUT _component_template/transform-obj
                   "type": "keyword"
                 }
               }
-            }
-          }
-        },
-        "meta": {
-          "type": "object",
-          "properties": {
-            "index-pattern": {
-              "type": "object",
-              "properties": {
-                "fieldFormatMap": {
-                  "type": "text",
-                  "fields": {
-                    "keyword": {
-                      "ignore_above": 256,
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "runtimeFieldMap": {
-                  "type": "text",
-                  "fields": {
-                    "keyword": {
-                      "ignore_above": 256,
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "fieldAttrs": {
-                  "type": "text",
-                  "fields": {
-                    "keyword": {
-                      "ignore_above": 256,
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "sourceFilters": {
-                  "type": "text",
-                  "fields": {
-                    "keyword": {
-                      "ignore_above": 256,
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "typeMeta": {
-                  "type": "text",
-                  "fields": {
-                    "keyword": {
-                      "ignore_above": 256,
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "timeFieldName": {
-                  "type": "text",
-                  "fields": {
-                    "keyword": {
-                      "ignore_above": 256,
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "name": {
-                  "type": "text",
-                  "fields": {
-                    "keyword": {
-                      "ignore_above": 256,
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "fields": {
-                  "type": "text",
-                  "fields": {
-                    "keyword": {
-                      "ignore_above": 256,
-                      "type": "keyword"
-                    }
-                  }
-                },
-                "title": {
-                  "type": "text",
-                  "fields": {
-                    "keyword": {
-                      "ignore_above": 256,
-                      "type": "keyword"
-                    }
-                  }
+            },
+            "category": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            },
+            "created": {
+              "type": "date"
+            },
+            "dataset": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            },
+            "ingested": {
+              "type": "date"
+            },
+            "kind": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            },
+            "module": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            },
+            "outcome": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            },
+            "timezone": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
                 }
               }
             },
@@ -322,63 +308,13 @@ PUT _component_template/transform-obj
                   "type": "keyword"
                 }
               }
-            },
-            "namespaces": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
             }
           }
         },
-        "service": {
+        "fileset": {
           "type": "object",
           "properties": {
-            "node": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "text",
-                  "fields": {
-                    "keyword": {
-                      "ignore_above": 256,
-                      "type": "keyword"
-                    }
-                  }
-                }
-              }
-            },
             "name": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            },
-            "id": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            },
-            "type": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            },
-            "version": {
               "type": "text",
               "fields": {
                 "keyword": {
@@ -393,20 +329,6 @@ PUT _component_template/transform-obj
           "type": "object",
           "properties": {
             "name": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            }
-          }
-        },
-        "client": {
-          "type": "object",
-          "properties": {
-            "ip": {
               "type": "text",
               "fields": {
                 "keyword": {
@@ -441,79 +363,10 @@ PUT _component_template/transform-obj
             }
           }
         },
-        "event": {
+        "input": {
           "type": "object",
           "properties": {
-            "ingested": {
-              "type": "date"
-            },
-            "created": {
-              "type": "date"
-            },
-            "kind": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            },
-            "timezone": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            },
-            "module": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            },
-            "action": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            },
-            "category": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            },
             "type": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            },
-            "dataset": {
-              "type": "text",
-              "fields": {
-                "keyword": {
-                  "ignore_above": 256,
-                  "type": "keyword"
-                }
-              }
-            },
-            "outcome": {
               "type": "text",
               "fields": {
                 "keyword": {
@@ -564,10 +417,95 @@ PUT _component_template/transform-obj
             }
           }
         },
-        "user": {
+        "labels": {
           "type": "object",
           "properties": {
-            "roles": {
+            "application": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "log": {
+          "type": "object",
+          "properties": {
+            "file": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  }
+                }
+              }
+            },
+            "level": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            },
+            "logger": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            },
+            "offset": {
+              "type": "long"
+            }
+          }
+        },
+        "message": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          }
+        },
+        "process": {
+          "type": "object",
+          "properties": {
+            "pid": {
+              "type": "long"
+            }
+          }
+        },
+        "related": {
+          "type": "object",
+          "properties": {
+            "user": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "service": {
+          "type": "object",
+          "properties": {
+            "id": {
               "type": "text",
               "fields": {
                 "keyword": {
@@ -585,6 +523,66 @@ PUT _component_template/transform-obj
                 }
               }
             },
+            "node": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "ignore_above": 256,
+                      "type": "keyword"
+                    }
+                  }
+                }
+              }
+            },
+            "type": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            },
+            "version": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "span": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "title": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          }
+        },
+        "trace": {
+          "type": "object",
+          "properties": {
             "id": {
               "type": "text",
               "fields": {
@@ -610,10 +608,28 @@ PUT _component_template/transform-obj
             }
           }
         },
-        "span": {
+        "user": {
           "type": "object",
           "properties": {
             "id": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            },
+            "name": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "ignore_above": 256,
+                  "type": "keyword"
+                }
+              }
+            },
+            "roles": {
               "type": "text",
               "fields": {
                 "keyword": {
