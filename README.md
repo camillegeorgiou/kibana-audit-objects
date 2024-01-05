@@ -31,7 +31,7 @@ PUT _index_template/kibana_objects-new
 }
 ```
 
-4. Reindex the existing kiban_analytics data into the new kibana index with the formlised mappings and ingest pipeline:
+4. Reindex the existing kibana_analytics data into the new kibana index with the formlised mappings and ingest pipeline:
 
 ```
 POST _reindex
