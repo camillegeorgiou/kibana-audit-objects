@@ -10,7 +10,7 @@ PUT _watcher/watch/kibana-reindex
       "request": {
         "search_type": "query_then_fetch",
         "indices": [
-          ".kibana_analytics_8.11.0"
+          ".kibana_analytics"
         ],
         "rest_total_hits_as_int": true,
         "body": {
@@ -42,7 +42,7 @@ PUT _watcher/watch/kibana-reindex
         },
         "body": """{
   "source": {
-    "index": ".kibana_analytics_8.11.0"
+    "index": ".kibana_analytics"
   },
   "dest": {
     "index": "kibana_objects-01"

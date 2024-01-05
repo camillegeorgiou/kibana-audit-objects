@@ -120,6 +120,9 @@ PUT _component_template/transform-obj
             }
           }
         },
+        "hour_of_day": {
+          "type": "long"
+        },
         "day_of_month": {
           "type": "long"
         },
@@ -135,6 +138,9 @@ PUT _component_template/transform-obj
         },
         "month_num": {
           "type": "long"
+        },
+        "month": {
+          "type": "keyword"
         },
         "agent": {
           "type": "object",

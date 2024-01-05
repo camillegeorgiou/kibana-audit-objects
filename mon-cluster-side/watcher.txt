@@ -34,7 +34,7 @@ PUT _watcher/watch/policy-execute
         "scheme": "https",
         "host": "{{monitoring cluster host}}",
         "port": 9243,
-        "method": "post",
+        "method": "PUT",
         "path": "_enrich/policy/objectid-policy/_execute",
         "params": {},
         "headers": {
