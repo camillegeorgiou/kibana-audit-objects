@@ -4,7 +4,7 @@
 
 This repo contains instructions on the full set of activities to complete the User Activity Monitoring Play
 The approach is broken into Kibana Auditing and Elasticsearch Auditing and documented in such a way that either or both can be delivered.
-* see the reference drawing UserActivityMonitoring.excalidraw (open at www.excalidraw.com) for an overview
+* see the reference drawing UserActivityMonitoring_v3.excalidraw (open at www.excalidraw.com) for an overview
 
 The guide assumes the following:
 * A Platinum or Enterprise Subscription level (https://www.elastic.co/subscriptions) - see rows: Elasticsearch audit logging, Kibana audit logging
@@ -17,7 +17,9 @@ For Reference if needed: (https://www.elastic.co/guide/en/cloud/current/ec-monit
 
     To begin sending monitoring data from the production deployment to the monitoring deployment.
 
-        -> Edit your production deployment, navigate to *Monitoring -> Logs and metrics*, and click Enable under "Ship to a deployment". Choose your monitoring cluster and click Save.
+      -> Edit your production deployment, navigate to: 
+      Monitoring -> Logs and metrics, and click Enable under "Ship to a deployment". 
+      Choose your monitoring cluster and click Save.
 
 2. Enable audit logging for both Elasticsearch and Kibana in your production deployment.
     
@@ -177,7 +179,7 @@ For Reference if needed: (https://www.elastic.co/guide/en/cloud/current/ec-monit
 - Note: When adding in the API key that line should start: "Authorization": "ApiKey 
 - ... followed by a space and then the actual key value
 
-11. Import the export.ndjson file containing the configuration of the dashboard.
+11. Import the ndjson files containing the configuration of the dashboards.
 
 
 
