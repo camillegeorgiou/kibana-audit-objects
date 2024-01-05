@@ -1,6 +1,6 @@
 # kibana-audit-objects
 
-**Intro**Hello
+**Intro**
 
 This repo contains instructions on resolving the saved object id's of objects in Kibana with auditing logs for end user access logging.
 
