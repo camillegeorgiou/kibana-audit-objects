@@ -37,29 +37,58 @@ PUT _index_template/kibana_objects-new
 POST _reindex
 {
   "source" : {
-    "index" : ".kibana_analytics_8.11.0"
+    "index" : ".kibana_analytics"
   },
   "dest" : {
-    "index" : "kibana_objects_01",
+    "index" : "kibana_objects-01",
     "pipeline" : "kibana-objectid"
   }
 }
 ```
 
 5. Add an advanced watch using the watcher.txt file. This watcher checks for new documents in the kibana_analytics index and reindexes into the new kibana index if the condition is met.
-- You'll need to create an Api Key for authorization of the request.
+- You'll need to create an Api Key for authorization of the request:
 
+```
+PUT _security/api_key
+{
+  "name": "reindex-watcher"
+}
+```
 
 
 **Set-up - Monitoring Cluster**
 - files contained in mon-cluster-side folder
 
-6. In the monitoring cluster, set up cross-cluster replication and create a follower index for the kibana objects index in the main cluster:
+6. In the monitoring cluster, set up cross-cluster replication:
+
+```
+PUT _cluster/settings
+{
+  "persistent": {
+    "cluster": {
+      "remote": {
+        "prod-cluster": {
+          "skip_unavailable": false,
+          "mode": "proxy",
+          "proxy_address": "{{remote_host}}:{{remote_port}}",
+          "proxy_socket_connections": 18,
+          "server_name": "{{remote_host}}",
+          "seeds": null,
+          "node_connections": null
+        }
+      }
+    }
+  }
+}
+```
+
+Create a follower index for the kibana objects index in the main cluster:
 
 ```
 PUT /kibana_objects-01/_ccr/follow
 {
-  "remote_cluster": "mon-cluster",
+  "remote_cluster": "prod-cluster",
   "leader_index": "kibana_objects-01",
   "max_read_request_operation_count": 5120,
   "max_outstanding_read_requests": 12,
