@@ -17,7 +17,5 @@ PUT /_enrich/policy/objectid-policy
             "map",
             "query",
             "search",
-            "visualization",
-            "title"]
-        
+            "visualization" ]        
 }}

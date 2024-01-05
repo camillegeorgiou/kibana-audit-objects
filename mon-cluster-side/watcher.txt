@@ -35,7 +35,7 @@ PUT _watcher/watch/policy-execute
         "host": "{{monitoring cluster host}}",
         "port": 9243,
         "method": "post",
-        "path": "_enrich/policy/objectid-policy-new/_execute",
+        "path": "_enrich/policy/objectid-policy/_execute",
         "params": {},
         "headers": {
           "Authorization": "::es_redacted::"

@@ -20,7 +20,7 @@ PUT _ingest/pipeline/enrich-ids
     {
       "geoip": {
         "field": "http.request.headers.x-forwarded-for",
-        "target_field": "geo_info",
+        "target_field": "geoip",
         "ignore_missing": true,
         "ignore_failure": true
       }
