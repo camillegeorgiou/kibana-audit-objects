@@ -37,6 +37,7 @@ For Reference if needed: (https://www.elastic.co/guide/en/cloud/current/ec-monit
     
     -> **Kibana**
     - Continue editing your deployment and this time add the following setting within *Edit user settings* for Kibana:
+      
         ```
         xpack.security.audit.enabled: true
         xpack.security.audit.ignore_filters:
@@ -78,29 +79,33 @@ For Reference if needed: (https://www.elastic.co/guide/en/cloud/current/ec-monit
         ```
         
 4. Reindex the existing kibana_analytics data into the new kibana index with the formlised mappings and ingest pipeline:
-        ```
-        POST _reindex
-        {
-        "source" : {
-            "index" : ".kibana_analytics"
-        },
-        "dest" : {
-            "index" : "kibana_objects-01",
-            "pipeline" : "kibana-objectid"
-        }
-        }
-        ```
+   
+```
+POST _reindex
+{
+"source" : {
+    "index" : ".kibana_analytics"
+},
+"dest" : {
+    "index" : "kibana_objects-01",
+    "pipeline" : "kibana-objectid"
+}
+}
+```
 4. Add an advanced watch using the watcher.txt file. This watcher checks for new documents in the kibana_analytics index and reindexes into the new kibana index if the condition is met.
 - You'll need to create an Api Key for authorization of the request : Stack Management-> Security API Keys:
 
-  ```
+```
 PUT _security/api_key
 ```
 
 - You'll need to edit this by adding in the Elasticsearch (.es.) host name and API Key
 - Note: When adding in the API key that line should start: "Authorization": "ApiKey xxxxxx"
 - ... followed by a space and then the actual key value
-=======
+
+```
+POST _reindex
+{
   "source" : {
     "index" : ".kibana_analytics"
   },
@@ -117,8 +122,6 @@ PUT _security/api_key
 5. In the monitoring cluster, set up cross-cluster replication and create a follower index for the kibana objects index in the main cluster:
 
   a) Use Instructions here: https://www.elastic.co/guide/en/cloud/current/ec-configure-as-remote-clusters.html to set up a remote cluster named "main-cluster".  This is under Stack Management-> Data Remote Clusters, or via the API:
-=======
-6. In the monitoring cluster, set up cross-cluster replication:
 
 ```
 PUT _cluster/settings
@@ -142,27 +145,6 @@ PUT _cluster/settings
 ```
 
 Create a follower index for the kibana objects index in the main cluster:
-
-```
-PUT _cluster/settings
-{
-  "persistent": {
-    "cluster": {
-      "remote": {
-        "prod-cluster": {
-          "skip_unavailable": false,
-          "mode": "proxy",
-          "proxy_address": "{{remote_host}}:{{remote_port}}",
-          "proxy_socket_connections": 18,
-          "server_name": "{{remote_host}}",
-          "seeds": null,
-          "node_connections": null
-        }
-      }
-    }
-  }
-}
-```
 
   b) Use this script to follow the kibana_objects-01 index from the main deployment.
 
@@ -203,34 +185,34 @@ PUT _cluster/settings
     a) Use component-template.txt
     b) Create an index template using the new component template:
 
-    ```
-    PUT _index_template/kibana-transform
-    {
-      "template": {
-        "settings": {
-          "index": {
-            "default_pipeline": "enrich-ids",
-            "final_pipeline": "enrich-ids"
-          }
-        }
-      },
-      "index_patterns": [
-        "kibana-transform-*"
-      ],
-      "composed_of": [
-        "transform-obj"
-      ]
+```
+PUT _index_template/kibana-transform
+{
+  "template": {
+    "settings": {
+      "index": {
+        "default_pipeline": "enrich-ids",
+        "final_pipeline": "enrich-ids"
+      }
     }
-    ```
+  },
+  "index_patterns": [
+    "kibana-transform-*"
+  ],
+  "composed_of": [
+    "transform-obj"
+  ]
+}
+```
 
 9. Create a transform from transform.txt and activate. The transform filters data from the kibana logs based on the presence of the saved_object.id field.
   a) Create the transform using transform.txt
   b) Start the transform
   
-  ```
-  post _transform/kibana-transform-01/_start
+```
+POST _transform/kibana-transform-01/_start
 
-  ```
+```
 
 10. Create a watch that re-executes the enrich policy when new objects are added, using watcher.txt.
 - You'll need to create an Api Key for authorization of the request : Stack Management-> Security API Keys:
