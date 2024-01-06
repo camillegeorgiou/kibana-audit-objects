@@ -76,9 +76,8 @@ For Reference if needed: (https://www.elastic.co/guide/en/cloud/current/ec-monit
         ]
         }
         ```
-
-    d) Reindex the existing kibana_analytics data into the new kibana index with the formlised mappings and ingest pipeline:
-
+        
+4. Reindex the existing kibana_analytics data into the new kibana index with the formlised mappings and ingest pipeline:
         ```
         POST _reindex
         {
@@ -91,20 +90,26 @@ For Reference if needed: (https://www.elastic.co/guide/en/cloud/current/ec-monit
         }
         }
         ```
-
 4. Add an advanced watch using the watcher.txt file. This watcher checks for new documents in the kibana_analytics index and reindexes into the new kibana index if the condition is met.
 - You'll need to create an Api Key for authorization of the request : Stack Management-> Security API Keys:
 
   ```
 PUT _security/api_key
-{
-  "name": "reindex-watcher"
-}
 ```
 
 - You'll need to edit this by adding in the Elasticsearch (.es.) host name and API Key
 - Note: When adding in the API key that line should start: "Authorization": "ApiKey xxxxxx"
 - ... followed by a space and then the actual key value
+=======
+  "source" : {
+    "index" : ".kibana_analytics"
+  },
+  "dest" : {
+    "index" : "kibana_objects-01",
+    "pipeline" : "kibana-objectid"
+  }
+}
+```
 
 **Set-up - Monitoring Cluster**
 - files contained in mon-cluster-side folder
@@ -112,6 +117,31 @@ PUT _security/api_key
 5. In the monitoring cluster, set up cross-cluster replication and create a follower index for the kibana objects index in the main cluster:
 
   a) Use Instructions here: https://www.elastic.co/guide/en/cloud/current/ec-configure-as-remote-clusters.html to set up a remote cluster named "main-cluster".  This is under Stack Management-> Data Remote Clusters, or via the API:
+=======
+6. In the monitoring cluster, set up cross-cluster replication:
+
+```
+PUT _cluster/settings
+{
+  "persistent": {
+    "cluster": {
+      "remote": {
+        "prod-cluster": {
+          "skip_unavailable": false,
+          "mode": "proxy",
+          "proxy_address": "{{remote_host}}:{{remote_port}}",
+          "proxy_socket_connections": 18,
+          "server_name": "{{remote_host}}",
+          "seeds": null,
+          "node_connections": null
+        }
+      }
+    }
+  }
+}
+```
+
+Create a follower index for the kibana objects index in the main cluster:
 
 ```
 PUT _cluster/settings
@@ -216,13 +246,6 @@ PUT _security/api_key
 - ... followed by a space and then the actual key value
 
 11. Import the ndjson files containing the configuration of the dashboards via Stack Management -> Saved Objects 
-
-
-
-
-
-
-
 
 
 
