@@ -1,6 +1,6 @@
 # kibana-audit-objects
 
-**Intro**
+## **Intro**
 
 This repo contains instructions on the full set of activities to complete the User Activity Monitoring Play
 The approach is broken into Kibana Auditing and Elasticsearch Auditing and documented in such a way that either or both can be delivered.
@@ -53,7 +53,7 @@ For Reference if needed: (https://www.elastic.co/guide/en/cloud/current/ec-monit
         - Index pattern: elastic-cloud-logs*
         - Timestamp field: @timestamp
 
-**Set-up - Main Deployment**
+## **Set-up - Main Deployment**
 - files contained in cluster-side folder
 
 
@@ -116,7 +116,7 @@ POST _reindex
 }
 ```
 
-**Set-up - Monitoring Cluster**
+## **Set-up - Monitoring Cluster**
 - files contained in mon-cluster-side folder
 
 5. In the monitoring cluster, set up cross-cluster replication and create a follower index for the kibana objects index in the main cluster:
