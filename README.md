@@ -4,11 +4,11 @@
 
 This repo contains instructions on the full set of activities to complete the User Activity Monitoring Play
 The approach is broken into Kibana Auditing and Elasticsearch Auditing and documented in such a way that either or both can be delivered.
-* see the reference drawing UserActivityMonitoring_v3.excalidraw (open at www.excalidraw.com) for an overview
+* See the reference drawing UserActivityMonitoring_v3.excalidraw (open at www.excalidraw.com) for an overview
 
 The guide assumes the following:
 * A Platinum or Enterprise Subscription level (https://www.elastic.co/subscriptions) - see rows: Elasticsearch audit logging, Kibana audit logging
-* Relevent permissions to access system indices in the cluster 
+* Relevant permissions to access system indices in the cluster 
 
 *** Create and Configure Monitoring Deployment ***
 For Reference if needed: (https://www.elastic.co/guide/en/cloud/current/ec-monitoring-setup.html)
