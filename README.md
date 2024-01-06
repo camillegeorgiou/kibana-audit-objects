@@ -217,6 +217,7 @@ POST _transform/kibana-transform-01/_start
 10. Create a watch that re-executes the enrich policy when new objects are added, using watcher.txt.
 - You'll need to create an Api Key for authorization of the request : Stack Management-> Security API Keys:
 
+```
 PUT _security/api_key
 {
   "name": "reindex-watcher"
@@ -228,13 +229,3 @@ PUT _security/api_key
 - ... followed by a space and then the actual key value
 
 11. Import the ndjson files containing the configuration of the dashboards via Stack Management -> Saved Objects 
-
-
-
-
-
-
-
-
-
-
