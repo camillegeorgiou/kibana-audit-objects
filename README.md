@@ -116,8 +116,8 @@ PUT _security/api_key
 
 5. In the monitoring cluster, set up cross-cluster replication and create a follower index for the kibana objects index in the main cluster:
 
-  a) Use Instructions here: https://www.elastic.co/guide/en/cloud/current/ec-configure-as-remote-clusters.html to set up a remote cluster named "main-cluster".  This is under Stack Management-> Data Remote Clusters, or via the API:
-=======
+  a) Use Instructions here: https://www.elastic.co/guide/en/cloud/current/ec-configure-as-remote-clusters.html to set up a remote cluster named "main-cluster".  This is under Stack Management-> Data Remote Clusters, or via the API.
+
 6. In the monitoring cluster, set up cross-cluster replication:
 
 ```
