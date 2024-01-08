@@ -1,14 +1,14 @@
 # kibana-audit-objects
 
-**Intro**
+## **Intro**
 
 This repo contains instructions on the full set of activities to complete the User Activity Monitoring Play
 The approach is broken into Kibana Auditing and Elasticsearch Auditing and documented in such a way that either or both can be delivered.
-* see the reference drawing UserActivityMonitoring_v3.excalidraw (open at www.excalidraw.com) for an overview
+* See the reference drawing UserActivityMonitoring_v3.excalidraw (open at www.excalidraw.com) for an overview
 
 The guide assumes the following:
 * A Platinum or Enterprise Subscription level (https://www.elastic.co/subscriptions) - see rows: Elasticsearch audit logging, Kibana audit logging
-* Relevent permissions to access system indices in the cluster 
+* Relevant permissions to access system indices in the cluster 
 
 *** Create and Configure Monitoring Deployment ***
 For Reference if needed: (https://www.elastic.co/guide/en/cloud/current/ec-monitoring-setup.html)
@@ -37,6 +37,7 @@ For Reference if needed: (https://www.elastic.co/guide/en/cloud/current/ec-monit
     
     -> **Kibana**
     - Continue editing your deployment and this time add the following setting within *Edit user settings* for Kibana:
+      
         ```
         xpack.security.audit.enabled: true
         xpack.security.audit.ignore_filters:
@@ -52,7 +53,7 @@ For Reference if needed: (https://www.elastic.co/guide/en/cloud/current/ec-monit
         - Index pattern: elastic-cloud-logs*
         - Timestamp field: @timestamp
 
-**Set-up - Main Deployment**
+## **Set-up - Main Deployment**
 - files contained in cluster-side folder
 
 
@@ -90,6 +91,7 @@ For Reference if needed: (https://www.elastic.co/guide/en/cloud/current/ec-monit
         }
         }
         ```
+
 4. Add an advanced watch using the watcher.txt file. This watcher checks for new documents in the kibana_analytics index and reindexes into the new kibana index if the condition is met.
 - You'll need to create an Api Key for authorization of the request : Stack Management-> Security API Keys:
 
@@ -101,18 +103,8 @@ PUT _security/api_key
 - Note: When adding in the API key that line should start: "Authorization": "ApiKey xxxxxx"
 - ... followed by a space and then the actual key value
 
-```
-  "source" : {
-    "index" : ".kibana_analytics"
-  },
-  "dest" : {
-    "index" : "kibana_objects-01",
-    "pipeline" : "kibana-objectid"
-  }
-}
-```
 
-**Set-up - Monitoring Cluster**
+## **Set-up - Monitoring Cluster**
 - files contained in mon-cluster-side folder
 
 5. In the monitoring cluster, set up cross-cluster replication and create a follower index for the kibana objects index in the main cluster:
@@ -120,29 +112,29 @@ PUT _security/api_key
   a) Use Instructions here: https://www.elastic.co/guide/en/cloud/current/ec-configure-as-remote-clusters.html to set up a remote cluster named "main-cluster".  This is under Stack Management-> Data Remote Clusters, or via the API.
    
    ... or ...
-   
-  a) In the monitoring cluster, set up cross-cluster replication (via API):
 
-    ```
-    PUT _cluster/settings
-    {
-      "persistent": {
-        "cluster": {
-          "remote": {
-            "main-cluster": {
-              "skip_unavailable": false,
-              "mode": "proxy",
-              "proxy_address": "{{remote_host}}:{{remote_port}}",
-              "proxy_socket_connections": 18,
-              "server_name": "{{remote_host}}",
-              "seeds": null,
-              "node_connections": null
-            }
-          }
+```
+PUT _cluster/settings
+{
+  "persistent": {
+    "cluster": {
+      "remote": {
+        "main-cluster": {
+          "skip_unavailable": false,
+          "mode": "proxy",
+          "proxy_address": "{{remote_host}}:{{remote_port}}",
+          "proxy_socket_connections": 18,
+          "server_name": "{{remote_host}}",
+          "seeds": null,
+          "node_connections": null
         }
       }
     }
-    ```
+  }
+}
+```
+
+Create a follower index for the kibana objects index in the main cluster:
 
   b) Use this script to follow the kibana_objects-01 index from the main deployment.
 
@@ -183,33 +175,35 @@ PUT _security/api_key
     a) Use component-template.txt
     b) Create an index template using the new component template:
 
-    ```
-    PUT _index_template/kibana-transform
-    {
-      "template": {
-        "settings": {
-          "index": {
-            "default_pipeline": "enrich-ids",
-            "final_pipeline": "enrich-ids"
-          }
-        }
-      },
-      "index_patterns": [
-        "kibana-transform-*"
-      ],
-      "composed_of": [
-        "transform-obj"
-      ]
+```
+PUT _index_template/kibana-transform
+{
+  "template": {
+    "settings": {
+      "index": {
+        "default_pipeline": "enrich-ids",
+        "final_pipeline": "enrich-ids"
+      }
     }
-    ```
+  },
+  "index_patterns": [
+    "kibana-transform-*"
+  ],
+  "composed_of": [
+    "transform-obj"
+  ]
+}
+```
 
 9. Create a transform from transform.txt and activate. The transform filters data from the kibana logs based on the presence of the saved_object.id field.
   a) Create the transform using transform.txt
   b) Start the transform
   
-  ```
-  post _transform/kibana-transform-01/_start
-  ```
+
+```
+POST _transform/kibana-transform-01/_start
+
+```
 
 10. Create a watch that re-executes the enrich policy when new objects are added, using watcher.txt.
 - You'll need to create an Api Key for authorization of the request : Stack Management-> Security API Keys:
@@ -226,13 +220,3 @@ PUT _security/api_key
 - ... followed by a space and then the actual key value
 
 11. Import the ndjson files containing the configuration of the dashboards via Stack Management -> Saved Objects 
-
-
-
-
-
-
-
-
-
-
