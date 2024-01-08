@@ -78,20 +78,20 @@ For Reference if needed: (https://www.elastic.co/guide/en/cloud/current/ec-monit
         }
         ```
         
-4. Reindex the existing kibana_analytics data into the new kibana index with the formlised mappings and ingest pipeline:
-   
-```
-POST _reindex
-{
-"source" : {
-    "index" : ".kibana_analytics"
-},
-"dest" : {
-    "index" : "kibana_objects-01",
-    "pipeline" : "kibana-objectid"
-}
-}
-```
+    d) Reindex the existing kibana_analytics data into the new kibana index with the formlised mappings and ingest pipeline:
+        ```
+        POST _reindex
+        {
+        "source" : {
+            "index" : ".kibana_analytics"
+        },
+        "dest" : {
+            "index" : "kibana_objects-01",
+            "pipeline" : "kibana-objectid"
+        }
+        }
+        ```
+
 4. Add an advanced watch using the watcher.txt file. This watcher checks for new documents in the kibana_analytics index and reindexes into the new kibana index if the condition is met.
 - You'll need to create an Api Key for authorization of the request : Stack Management-> Security API Keys:
 
@@ -103,25 +103,15 @@ PUT _security/api_key
 - Note: When adding in the API key that line should start: "Authorization": "ApiKey xxxxxx"
 - ... followed by a space and then the actual key value
 
-```
-POST _reindex
-{
-  "source" : {
-    "index" : ".kibana_analytics"
-  },
-  "dest" : {
-    "index" : "kibana_objects-01",
-    "pipeline" : "kibana-objectid"
-  }
-}
-```
 
 ## **Set-up - Monitoring Cluster**
 - files contained in mon-cluster-side folder
 
 5. In the monitoring cluster, set up cross-cluster replication and create a follower index for the kibana objects index in the main cluster:
 
-  a) Use Instructions here: https://www.elastic.co/guide/en/cloud/current/ec-configure-as-remote-clusters.html to set up a remote cluster named "main-cluster".  This is under Stack Management-> Data Remote Clusters, or via the API:
+  a) Use Instructions here: https://www.elastic.co/guide/en/cloud/current/ec-configure-as-remote-clusters.html to set up a remote cluster named "main-cluster".  This is under Stack Management-> Data Remote Clusters, or via the API.
+   
+   ... or ...
 
 ```
 PUT _cluster/settings
@@ -209,6 +199,7 @@ PUT _index_template/kibana-transform
   a) Create the transform using transform.txt
   b) Start the transform
   
+
 ```
 POST _transform/kibana-transform-01/_start
 
