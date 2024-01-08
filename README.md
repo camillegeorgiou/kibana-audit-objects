@@ -129,7 +129,7 @@ PUT _cluster/settings
   "persistent": {
     "cluster": {
       "remote": {
-        "prod-cluster": {
+        "main-cluster": {
           "skip_unavailable": false,
           "mode": "proxy",
           "proxy_address": "{{remote_host}}:{{remote_port}}",
